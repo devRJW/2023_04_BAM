@@ -1,4 +1,4 @@
-package bam;
+package bam.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
