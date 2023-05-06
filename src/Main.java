@@ -13,6 +13,8 @@ public class Main {
 		
 		System.out.println(cmd);
 		
+		System.out.println("=== git 수정 ====");
+		
 		System.out.println("=== 프로그램 종료 ====");
 	}
 }
