@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import bam.controller.MemberController;
 import bam.dto.Article;
+import bam.dto.Member;
 import bam.util.Util;
 
 public class App {
 
 	List<Article> articles;
+	List<Member> members;
 	int lastArticleId ;
+
 	
 	App() {
 		articles = new ArrayList<>();
+		members = new ArrayList<>();
 		lastArticleId = 0;
+
 	}
 
 	
@@ -24,7 +30,10 @@ public class App {
 		
 		Scanner sc = new Scanner(System.in);
 		
+		
 		makeTestData();
+		
+		MemberController memberController = new MemberController( members, sc );
 		
 		while (true) {
 			String cmd = sc.nextLine().trim();
@@ -32,24 +41,40 @@ public class App {
 			if( cmd.equals("exit") ) {
 				break;
 			}
-			
-			if( cmd.equals("article write") ) {
+
+			if( cmd.equals("member join") ) {
+				memberController.doJoin();
+			}
+			else if( cmd.equals("member list") ) {
+				
+				System.out.println(" ==== 멤버 LIST ====");
+				
+				System.out.println(" ==== artilce LIST ====");
+				System.out.printf("ID	제목	타이틀	등록일\n");
+				for ( int i = members.size() -1 ; i>=0; i-- ) {
+					Member member = members.get(i);
+					System.out.printf("%d	%s	%s	%s\n", member.getId(), member.getLogInId(), member.getName() , member.getRegDate() );
+				}
+
+				
+			}	
+
+			else if( cmd.equals("article write") ) {
 				int id  =  lastArticleId  + 1; 
 				lastArticleId  = id;  
 				
 				System.out.println(" ==== artilce 등록 ====");
-				System.out.println("제목");
+				System.out.println("로그인ID");
 				String title = sc.nextLine();
 				
 				System.out.println("타이틀");
 				String body = sc.nextLine();
 				
-				String regDate = Util.getDateStr();
-				System.out.printf("regDate:%s ", regDate);
+				System.out.printf("regDate:%s ", body);
 				
 				System.out.printf("%d 번 게시글 입니다", lastArticleId);
 				
-				Article article = new Article(id,regDate ,  title, body );
+				Article article = new Article(id, Util.getDateStr(),  title, body );
 				articles.add(article);
 			} else if ( cmd.startsWith("article list")) {
 				                        
@@ -187,6 +212,7 @@ public class App {
 		System.out.println("=== 프로그램 종료 ====");
 	}
 
+	
 	private Article getArticleId(int id) {
 		for (Article article : articles) {
 			if( article.getId() == id  ) {
