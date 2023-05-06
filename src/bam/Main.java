@@ -1,6 +1,14 @@
+package bam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+/*
+ * git add .
+ * git commit -m "article detail 반영"
+ * git push origin master
+ *  */ 
+
+
 
 public class Main {
 	public static void main(String[] args) {
@@ -22,15 +30,19 @@ public class Main {
 				int id  =  lastArticleId  + 1; 
 				lastArticleId  = id;  
 				
+				System.out.println(" ==== artilce 등록 ====");
 				System.out.println("제목");
 				String title = sc.nextLine();
 				
 				System.out.println("타이틀");
 				String body = sc.nextLine();
 				
+				String regDate = Util.getDateStr();
+				System.out.printf("regDate:%s ", regDate);
+				
 				System.out.printf("%d 번 게시글 입니다", lastArticleId);
 				
-				Article article = new Article(id, title, body);
+				Article article = new Article(id, title, body, regDate);
 				articles.add(article);
 			} else if ( cmd.equals("article list")) {
 				if ( articles.size() == 0 ) {
@@ -39,8 +51,9 @@ public class Main {
 				}
 				for ( int i = articles.size() -1 ; i>=0; i-- ) {
 					Article article = articles.get(i);
-					System.out.printf("ID	제목	타이틀\n");
-					System.out.printf("%d	%s	%s\n", article.getId(), article.getTitle(), article.getTitle() );
+					System.out.println(" ==== artilce LIST ====");
+					System.out.printf("ID	제목	타이틀	등록일\n");
+					System.out.printf("%d	%s	%s	%s\n", article.getId(), article.getTitle(), article.getTitle() , article.getRegDate() );
 				}
 				
 			} else if ( cmd.startsWith("article detail")) {
@@ -66,11 +79,15 @@ public class Main {
 					continue;
 				}	
 				
+				System.out.println(" ==== artilce 상세 ====");
 				System.out.printf("id   : %d\n" , foundArticle.id );
 				System.out.printf("제목 : %s\n" , foundArticle.title );
 				System.out.printf("내용 : %s\n" , foundArticle.body );
-					
+				System.out.printf("등록일 : %s\n" , foundArticle.regDate );
 				
+			}
+			else {
+				System.out.println("명령어를 잘못 입력 하였습니다");
 				
 			}
 		}
@@ -85,14 +102,16 @@ class Article  {
 	int id;
 	String title;
 	String body;
+	String regDate;
 	
 	public Article() {
 	}
 
-	public Article(int id, String title, String body) {
+	public Article(int id, String title, String body, String regDate) {
 		this.id  = id;
 		this.title  = title;
 		this.body  = body;
+		this.regDate  = regDate;
 	}
 
 	
@@ -118,6 +137,14 @@ class Article  {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
 	}
 	
 }
