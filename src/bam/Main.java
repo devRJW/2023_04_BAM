@@ -53,11 +53,16 @@ public class Main {
 					Article article = articles.get(i);
 					System.out.println(" ==== artilce LIST ====");
 					System.out.printf("ID	제목	타이틀	등록일\n");
-					System.out.printf("%d	%s	%s	%s\n", article.getId(), article.getTitle(), article.getTitle() , article.getRegDate() );
+					System.out.printf("%d	%s	%s	%s\n", article.getId(), article.getTitle(), article.getBody() , article.getRegDate() );
 				}
 				
 			} else if ( cmd.startsWith("article detail")) {
 				String cmdBits[] = cmd.split(" ");
+				if (cmdBits.length != 3 ) {
+					System.out.println( "id를 입력 하지 않았습니다" );
+					continue;
+				}
+
 				int id = Integer.parseInt(cmdBits[2]);  
 			 
 				/*
@@ -85,7 +90,87 @@ public class Main {
 				System.out.printf("내용 : %s\n" , foundArticle.body );
 				System.out.printf("등록일 : %s\n" , foundArticle.regDate );
 				
+		  } else if ( cmd.startsWith("article modify")) {
+			  
+			String cmdBits[] = cmd.split(" ");
+			
+			if (cmdBits.length != 3 ) {
+				System.out.println( "id를 입력 하지 않았습니다" );
+				continue;
 			}
+
+			int id = Integer.parseInt(cmdBits[2]);
+			
+			
+		 
+			/*
+			 * for ( int i=0; i < cmdBits.length; i++ ) { System.out.println( "cmdBits[i]:"
+			 * + cmdBits[i]); }
+			 * 
+			*/
+			Article foundArticle =  null;
+
+			for (Article article : articles) {
+				if( article.getId() == id  ) {
+					foundArticle = article;
+					break;
+				}
+			}
+			
+			if ( foundArticle == null) {
+				System.out.printf("%d번 게시물이 존재 하지 않습니다.",id );
+				continue;
+			}	
+			
+			
+			System.out.println(" ==== artilce 수정 ====");
+			System.out.println("제목");
+			String title = sc.nextLine();
+			
+			System.out.println("타이틀");
+			String body = sc.nextLine();
+			
+			foundArticle.title  = title;
+			foundArticle.body = body;
+			
+			System.out.printf("%d번 게시물이 수정 되었습니다.",id );
+			
+		 } else if ( cmd.startsWith("article delete")) {
+			String cmdBits[] = cmd.split(" ");
+			if (cmdBits.length != 3 ) {
+				System.out.println( "id를 입력 하지 않았습니다" );
+				continue;
+			}
+			
+			int id = Integer.parseInt(cmdBits[2]);  
+			
+			
+		 
+			/*
+			 * for ( int i=0; i < cmdBits.length; i++ ) { System.out.println( "cmdBits[i]:"
+			 * + cmdBits[i]); }
+			 * 
+			*/
+			Article foundArticle =  null;
+
+			for (Article article : articles) {
+				if( article.getId() == id  ) {
+					foundArticle = article;
+					break;
+				}
+			}
+			
+			if ( foundArticle == null) {
+				System.out.printf("%d번 게시물이 존재 하지 않습니다.",id );
+				continue;
+			}	
+			
+			
+			articles.remove(foundArticle);
+			
+			System.out.printf("%d번 게시물이 삭제 되었습니다.",id );
+			
+		}
 			else {
 				System.out.println("명령어를 잘못 입력 하였습니다");
 				
