@@ -9,11 +9,16 @@ public class Main {
 		
 		//String cmd = sc.nextLine();
 		//int cmd = sc.nextInt();
-		String cmd = sc.next();
+		while (true) {
+			System.out.println("명령어)");
+			String cmd = sc.next();
+			System.out.println(cmd);
+			
+			if( cmd.equals("exit") ) {
+				break;
+			}
+		}
 		
-		System.out.println(cmd);
-		
-		System.out.println("=== git 수정 ====");
 		
 		System.out.println("=== 프로그램 종료 ====");
 	}
