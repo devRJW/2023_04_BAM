@@ -7,18 +7,47 @@ import java.util.Scanner;
 import bam.dto.Article;
 import bam.util.Util;
 
-public class ArticleController {
+public class ArticleController extends Controller{
 	
 	private List<Article> articles;
 	private Scanner sc;
 	private int lastArticleId ;
+	String cmd;
+	
+	
 	
 	public ArticleController( List<Article> articles, Scanner sc) {
 		this.articles = articles;
 		this.sc  = sc;
 		lastArticleId = 0;
 	}
-	
+
+	@Override
+	public void doAction(String cmd, String methodName) {
+		this.cmd = cmd;
+		
+		switch (methodName) {
+		case "write":
+			doWrite();
+			break;
+		case "list":
+			showList();
+			break;
+		case "detail":
+			showDetail();
+			break;
+		case "modify":
+			doModify();
+			break;
+		case "delete":
+			doDelete();
+			break;
+		default:
+			System.out.println("메소드 명령어를 잘못입력 하였습니다.");
+			break;
+		} 
+		
+	}
 
 	public void doWrite() {
 		
@@ -26,24 +55,22 @@ public class ArticleController {
 		lastArticleId  = id;  
 		
 		System.out.println(" ==== artilce 등록 ====");
-		System.out.println("로그인ID");
+		System.out.println("제목");
 		String title = sc.nextLine();
 		
 		System.out.println("타이틀");
 		String body = sc.nextLine();
 		
-		System.out.printf("regDate:%s ", body);
-		
-		System.out.printf("%d 번 게시글 입니다", lastArticleId);
-		
 		Article article = new Article(id, Util.getDateStr(),  title, body );
 		articles.add(article);
-
+		
+		System.out.printf("%d 번 게시글 등록 되었습니다.\n", lastArticleId);
+		
 		
 	}
 
 
-	public void showList(String cmd) {
+	public void showList() {
 		List<Article> findArticles =  articles;
 		
 		String serchTitle  = cmd.substring("article list".length()).trim();
@@ -75,10 +102,10 @@ public class ArticleController {
 	}
 
 
-	public void showDetail(String cmd) {
+	public void showDetail() {
 		String cmdBits[] = cmd.split(" ");
-		if (cmdBits.length != 3 ) {
-			System.out.println( "id를 입력 하지 않았습니다" );
+		if (cmdBits.length == 2 ) {
+			System.out.println( "검색어를 입력 하지 않았습니다" );
 			return;
 		}
 
@@ -115,13 +142,14 @@ public class ArticleController {
 	}
 
 
-	public void doModify(String cmd) {
+	public void doModify() {
 		String cmdBits[] = cmd.split(" ");
 		
-		if (cmdBits.length != 3 ) {
-			System.out.println( "id를 입력 하지 않았습니다" );
+		if (cmdBits.length == 2 ) {
+			System.out.println( "검색어를 입력 하지 않았습니다" );
 			return;
 		}
+
 
 		int id = Integer.parseInt(cmdBits[2]);
 		
@@ -157,12 +185,13 @@ public class ArticleController {
 	}
 
 
-	public void doDelete(String cmd) {
+	public void doDelete() {
 		String cmdBits[] = cmd.split(" ");
-		if (cmdBits.length != 3 ) {
-			System.out.println( "id를 입력 하지 않았습니다" );
+		if (cmdBits.length == 2 ) {
+			System.out.println( "검색어를 입력 하지 않았습니다" );
 			return;
 		}
+
 		
 		int id = Integer.parseInt(cmdBits[2]);  
 		
@@ -190,7 +219,6 @@ public class ArticleController {
 
 
 	public  void makeTestData() {
-		
 			
 		for (int i = 1; i <= 5; i++) {
 			
@@ -204,6 +232,9 @@ public class ArticleController {
 			articles.add(article);
 			
 		}
+		System.out.println("아티클 자료가 5건 생성 되었습니다.");
 		
 	}
+
+
 }
